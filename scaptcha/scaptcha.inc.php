@@ -183,10 +183,12 @@
 			
 			// And some distortion
 			
-			if( $this->bgPlainColor !== NULL )
+			if( $this->bgPlainColor == NULL )
 			{
 				
-				//$this->drawText( "SOME DISTORTION AND STUFF TO TEST THIS OUT", $this->bgPlainColor, false, 20, 40 );
+				$this->drawText( "SOME DISTORTION AND STUFF TO TEST THIS OUT", $this->bgPlainColor, false, 20, 40 );
+			
+				$this->drawText( "SOME DISTORTION AND STUFF TO TEST THIS OUT", $this->getRandomColor($this->image), false, 20, 10 );
 				
 			}
 			
@@ -516,7 +518,7 @@
 		public function getBgPlainColor()
 		{
 			
-			echo "Hoi!";
+			return $this->bgPlainColor;
 			
 		}
 		

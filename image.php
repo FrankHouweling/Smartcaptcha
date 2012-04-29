@@ -7,7 +7,7 @@
 
 	$captcha = new SmartCaptcha();
 	
-	//$captcha->setBgPlainColorFromHex( "#086A87" );
+	$captcha->setBgPlainColorFromHex( "#086A87" );
 	
 	$captcha->generateCheckText();
 	
