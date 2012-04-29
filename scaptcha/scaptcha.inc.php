@@ -1,7 +1,7 @@
 <?php
 
 	session_start();
-
+	
 	/*
 	 * 
 	 * Scaptcha.inc.php
@@ -95,7 +95,7 @@
 		public function draw()
 		{
 			
-			header("content-type: image/png"); 
+			//header("content-type: image/png"); 
 			
 			// Create image if not yet created
 			
@@ -614,6 +614,58 @@
 		{
 			
 			return $this->checkText;
+			
+		}
+		
+		/*
+		 * 
+		 * TODO
+		 *
+		 */
+		
+		public function setAchtergrondRuis( $bool )
+		{
+			
+			if( is_bool($bool) )
+			{
+				
+				$this->achtergrondRuis	=	$bool;
+				
+				return true;
+				
+			}
+			else
+			{
+			
+				return false;
+			
+			}
+			
+		}
+		
+		/*
+		 * 
+		 * TODO
+		 *
+		 */
+		
+		public function setNoTextShadow( $bool )
+		{
+			
+			if( is_bool($bool) )
+			{
+				
+				$this->noShadow	=	$bool;
+				
+				return true;
+				
+			}
+			else
+			{
+			
+				return false;
+			
+			}
 			
 		}
 		

@@ -5,14 +5,37 @@
 
 	require( "scaptcha/scaptcha.inc.php" );
 
-	$captcha = new SmartCaptcha();
+	if( !isset( $_SESSION['img'] ) )
+	{
 	
-	$captcha->setBgPlainColorFromHex( "#086A87" );
+		ob_start();
 	
-	$captcha->generateCheckText();
+		$captcha = new SmartCaptcha();
+		
+		$captcha->setBgPlainColorFromHex( "#FFFFFF" );
+		
+		$captcha->setAchtergrondRuis( false );
+		
+		$captcha->setNoTextShadow( true );
+		
+		$captcha->generateCheckText();
+		
+		$_SESSION['secretword']	=	$captcha->getCheckText();
+		
+		$captcha->draw();
+		
+		$img = ob_get_clean();
 	
-	$_SESSION['secretword']	=	$captcha->getCheckText();
-	
-	$captcha->draw();
+		$_SESSION['img']	=	$img;
+		
+	}
+	else
+	{
+		
+		$img	=	$_SESSION['img'];
+		
+	}
+
+	echo base64_encode($img);
 
 ?>

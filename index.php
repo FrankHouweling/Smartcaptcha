@@ -1,8 +1,3 @@
-<?php
-
-	session_start();
-
-?>
 <!doctype>
 <html>
 	
@@ -19,7 +14,7 @@
 		
 		<center>
 			<h1>Which of the following words is a piece fo furniture</h1>
-			<img src="image.php" alt="Captcha" />
+			<img src="data:image/png;base64,<?php require("image.php"); ?>" alt="Captcha" />
 			<p>
 				<a href="new.php" target="_blank">Antwoord</a>
 			</p>
