@@ -53,8 +53,8 @@
 			
 			// Set default height and width
 			
-			$this->height		=	100;
-			$this->width		=	300;
+			$this->height		=	110;
+			$this->width		=	330;
 			$this->dummyWords	=	2;
 			$this->setLanguage( "en" );
 			$this->dataPath		=	"scaptcha/data/";
@@ -266,7 +266,7 @@
 				else
 				{
 					
-					$x	=	( $this->textsDrawn - 1 ) * 40 + ( $this->lastTextLength * 3 ) + rand( 5 , 18 );
+					$x	=	( $this->textsDrawn - 1 ) * ( $this->width / 8 ) + ( $this->lastTextLength * 3 ) + rand( 5 , 18 );
 					
 				}
 				
