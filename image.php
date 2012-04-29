@@ -9,6 +9,10 @@
 	
 	//$captcha->setBgPlainColorFromHex( "#086A87" );
 	
+	$captcha->generateCheckText();
+	
+	$_SESSION['secretword']	=	$captcha->getCheckText();
+	
 	$captcha->draw();
 
 ?>

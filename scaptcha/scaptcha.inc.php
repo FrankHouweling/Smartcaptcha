@@ -1,5 +1,7 @@
 <?php
 
+	session_start();
+
 	/*
 	 * 
 	 * Scaptcha.inc.php
@@ -37,6 +39,7 @@
 		
 		private $textsDrawn;
 		private $lastY;
+		private $lastTextLength;
 		
 		
 		/*
@@ -136,9 +139,9 @@
 			
 			
 			// Draw the check text on the image
+			$this->dummyWords[]	=	$this->checkText;
 			
-			$this->drawText( $this->checkText );
-			
+			shuffle( $this->dummyWords );
 			
 			// Draw them dummywords!
 			
@@ -174,6 +177,8 @@
 		
 		public function generateCheckText()
 		{
+			
+			$gen	=	$this->generateDummyText(1);
 			
 			$this->checkText	=	"chair";
 			
@@ -220,7 +225,26 @@
 				else
 				{
 					
-					$y			=	rand(25, ($this->height - 20));
+					if( $this->lastY < 25 )
+					{
+						
+						$y	=	rand( $this->lastY + 25, ( $this->height - 25 ) );
+						
+					}
+					else if( $this->lastY > ( $this->height - 20 ) )
+					{
+						
+						$y	=	rand( 25, $this->lastY - 25 );
+						
+					}
+					else
+					{
+						
+						$y	=	rand(25, ( $this->height - 25 ) );
+						
+					}
+					
+					$y			=	rand(25, ($this->height - 25));
 					
 				}
 				
@@ -233,7 +257,19 @@
 			if( $x == false )
 			{
 				
-				$x			=	$this->textsDrawn * 20 + rand( 15 , 45 );
+				if( $this->textsDrawn == 1 )
+				{
+					
+					$x	=	rand(10,25);
+					
+				}
+				else
+				{
+					
+					$x	=	( $this->textsDrawn - 1 ) * 40 + ( $this->lastTextLength * 10 ) + rand( 5 , 18 );
+					
+				}
+				
 				
 			}
 			
@@ -268,6 +304,10 @@
 					$tmpcolor, 
 					$this->dataPath . "/fonts/" . $font, 
 					$dummyWord);
+					
+					
+		
+			$this->lastTextLength	=	strlen($dummyWord);
 			
 		}
 		
@@ -463,8 +503,21 @@
 		 * 
 		 */
 		
-		private function generateDummyText()
+		private function generateDummyText( $hoeveel = false )
 		{
+			
+			if( $hoeveel !== false )
+			{
+				
+				$aantal	=	$hoeveel;
+				
+			}
+			else
+			{
+				
+				$aantal	=	 $this->dummyWords;
+				
+			}
 			
 			// First load the file..
 			
@@ -482,7 +535,7 @@
 				$retAr[]	=	strtolower( $tmp[ array_rand( $tmp ) ] );
 				
 				// Stop looping if we have enough words!
-				if( count($retAr) >= $this->dummyWords )
+				if( count($retAr) >= $aantal )
 				{
 				
 					break;
@@ -516,6 +569,19 @@
 				return false;
 				
 			}
+			
+		}
+		
+		/*
+		 * 
+		 * TODO
+		 * 
+		 */
+		
+		public function getCheckText()
+		{
+			
+			return $this->checkText;
 			
 		}
 		
