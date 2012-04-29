@@ -41,6 +41,8 @@
 		private $lastY;
 		private $lastTextLength;
 		
+		private $achtergrondRuis;
+		
 		
 		/*
 		 * 
@@ -59,6 +61,7 @@
 			$this->setLanguage( "en" );
 			$this->dataPath		=	"scaptcha/data/";
 			$this->noShadow		=	false;
+			$this->achtergrondRuis	=	true;
 			
 		}
 		
@@ -114,6 +117,32 @@
 						$this->bgPlainColor["b"]);
 
 				ImageFillToBorder($this->image, 0, 0, $red, $red);	
+				
+			}
+			
+			
+			// Achtergrondruis..
+			
+			// Lijnen
+			
+			if( $this->achtergrondRuis == true )
+			{
+				
+				for( $i = 0; $i < rand(10, 30); $i++ )
+				{
+					
+					switch( rand(1,2) )
+					{
+						case 1:
+							imagearc( $this->image, rand(0,$this->width),rand(0,$this->height), rand(0,$this->width), rand(0,$this->height),  0, rand(10,360), $this->getRandomColor( $this->image ));
+						break;
+						case 2:
+							imageline( $this->image, rand(0,$this->width), rand(0,$this->height),rand(0,$this->width), rand(0,$this->height) , $this->getRandomColor( $this->image ) );
+						break;
+					}					
+					
+				}
+				
 				
 			}
 			
@@ -208,6 +237,7 @@
 				$tmpcolor = imagecolorallocate($this->image, $tmpcolor["r"], $tmpcolor["g"], $tmpcolor["b"]);
 				
 			}
+			
 				
 			// Then the font
 			$this->dataPath . "/fonts/" . $this->getRandomFont();
