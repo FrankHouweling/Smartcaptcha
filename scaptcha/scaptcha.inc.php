@@ -21,10 +21,23 @@
 		private $height;
 		private $width;
 		
+		private $fonts;
+		
 		private $bgPlainColor;
 		
 		private $lang;
+		private $amoundDummyWords;
+		
+		private $dataPath;
+		
 		private $dummyWords;
+		private $checkText;
+		
+		private $noShadow;
+		
+		private $textsDrawn;
+		private $lastY;
+		
 		
 		/*
 		 * 
@@ -39,8 +52,10 @@
 			
 			$this->height		=	100;
 			$this->width		=	300;
-			$this->dummyWords	=	3;
+			$this->dummyWords	=	2;
 			$this->setLanguage( "en" );
+			$this->dataPath		=	"scaptcha/data/";
+			$this->noShadow		=	false;
 			
 		}
 		
@@ -74,10 +89,6 @@
 		public function draw()
 		{
 			
-			var_dump( $this->generateDummyText() );
-			
-			die();
-			
 			header("content-type: image/png"); 
 			
 			// Create image if not yet created
@@ -104,6 +115,49 @@
 			}
 			
 			
+			// Now draw the check text
+			
+			if( $this->checkText == NULL )
+			{
+				
+				$this->generateCheckText();
+				
+			}
+			
+			
+			// Check if dummytext is aleady generated
+			
+			if( !is_array($this->dummyWords) )
+			{
+				
+				$this->dummyWords = $this->generateDummyText();
+				
+			}
+			
+			
+			// Draw the check text on the image
+			
+			$this->drawText( $this->checkText );
+			
+			
+			// Draw them dummywords!
+			
+			foreach( $this->dummyWords as $dummyWord )
+			{
+				
+				$this->drawText( $dummyWord );
+				
+			}
+			
+			// And some distortion
+			
+			if( $this->bgPlainColor !== NULL )
+			{
+				
+				//$this->drawText( "SOME DISTORTION AND STUFF TO TEST THIS OUT", $this->bgPlainColor, false, 20, 40 );
+				
+			}
+			
 			//Het plaatje aanmaken. 
 			ImagePng($this->image); 
 			
@@ -111,7 +165,205 @@
 			ImageDestroy($this->image); 
 			
 		}
+
+		/*
+		 * 
+		 * TODO
+		 * 
+		 */
 		
+		public function generateCheckText()
+		{
+			
+			$this->checkText	=	"chair";
+			
+		}
+		
+		/*
+		 * 
+		 * TODO
+		 * 
+		 */
+		
+		private function drawText( $dummyWord, $tmpcolor = false, $shadow = true, $x = false, $y = false )
+		{
+			// First get the color
+			
+			$this->textsDrawn++;
+			
+			if( $tmpcolor == false )
+			{
+			
+				$tmpcolor	=	$this->getRandomColor( $this->image );
+				
+			}
+			else
+			{
+				
+				$tmpcolor = imagecolorallocate($this->image, $tmpcolor["r"], $tmpcolor["g"], $tmpcolor["b"]);
+				
+			}
+				
+			// Then the font
+			$this->dataPath . "/fonts/" . $this->getRandomFont();
+				
+			// The Y-position
+			if( $y == false )
+			{
+			
+				if( $this->lastY == NULL )
+				{
+					
+					$y			=	  rand(25, ($this->height - 20));
+					
+				}
+				else
+				{
+					
+					$y			=	rand(25, ($this->height - 20));
+					
+				}
+				
+				
+			}
+			
+			$this->lastY	=	$y;
+			
+			// The X-position
+			if( $x == false )
+			{
+				
+				$x			=	$this->textsDrawn * 20 + rand( 15 , 45 );
+				
+			}
+			
+				
+			$turn		=	rand(-13,12);
+				
+			$fontSize	=	rand(20,30);
+			
+			$font		=	$this->getRandomFont();
+			
+			if( $shadow == true && $this->noShadow == false )
+			{
+				
+				imagettftext(
+						$this->image , 
+						$fontSize + 1,	// Font size
+						$turn,	//	Turn it a little?
+						$x-2,
+						$y-2,
+						imagecolorallocate($this->image, 0, 0, 0), 
+						$this->dataPath . "/fonts/" . $font, 
+						$dummyWord);
+				
+			}
+				
+			imagettftext( 
+					$this->image , 
+					$fontSize,	// Font size
+					$turn,	//	Turn it a little?
+					$x,
+					$y,
+					$tmpcolor, 
+					$this->dataPath . "/fonts/" . $font, 
+					$dummyWord);
+			
+		}
+		
+		/*
+		 * 
+		 * TODO
+		 * 
+		 */
+		
+		private function getRandomColor( $im )
+		{
+			
+			return imagecolorallocate($im, mt_rand(150,240), mt_rand(150,240), mt_rand(150,240));
+			
+		}
+		
+		/*
+		 * 
+		 * TODO
+		 * 
+		 */
+		
+		private function getRandomFont()
+		{
+			
+			if( $this->fonts == NULL )
+			{
+			
+				$this->updateFonts();
+				
+			}
+			
+			return $this->fonts[ array_rand( $this->fonts ) ];
+					
+		}
+		
+		/*
+		 * 
+		 * TODO
+		 * 
+		 */
+		
+		private function updateFonts()
+		{
+			
+			$this->fonts	=	$this->getDirectoryList( $this->dataPath . "/fonts/", ".ttf" );
+			
+			// Give an error when there are no font files.
+			
+			if( count( $this->fonts ) == 0 )
+			{
+				
+				$this->error( 1 , "No font files (.ttf) found in " . $this->dataPath . "/fonts" );
+				
+			}
+			
+		}
+		
+		/*
+		 * 
+		 * TODO
+		 * 
+		 */
+		
+		function getDirectoryList ( $directory , $filetype = false ) 
+		  {
+		
+		    // create an array to hold directory list
+		    $results = array();
+		
+		    // create a handler for the directory
+		    $handler = opendir($directory);
+		
+		    // open directory and walk through the filenames
+		    while ($file = readdir($handler)) {
+		
+		      // if file isn't this directory or its parent, add it to the results
+		      if ($file != "." && $file != "..") {
+		      	
+		      	if( $filetype !== false && strpos($file, $filetype) !== false )
+		      	{
+		        	$results[] = $file;
+				}
+				
+		      }
+		
+		    }
+		
+		    // tidy up: close the handler
+		    closedir($handler);
+		
+		    // done!
+		    return $results;
+		
+		  }
+			
 		/*
 		 * 
 		 * TODO
@@ -198,10 +450,10 @@
 			
 		}
 		
-		public function setDummyWords( $cnt )
+		public function setAmoundDummyWords( $cnt )
 		{
 			
-			$this->dummyWords	=	(int)$cnt;
+			$this->amoundDummyWords	=	(int)$cnt;
 			
 		}
 		
@@ -216,15 +468,20 @@
 			
 			// First load the file..
 			
-			$tmp	=	file( "data/" . $this->lang . "/dict.txt" );
+			$tmp	=	file( $this->dataPath . $this->lang . "/dict.txt" );
 			
 			$retAr	=	array();
 			
+			// Loop thill we have one...
+			
 			while( true )
 			{
+					
+				// TODO check if not in array with "good words"
 				
-				$retAr[]	=	$tmp[ array_rand( $tmp ) ];
+				$retAr[]	=	strtolower( $tmp[ array_rand( $tmp ) ] );
 				
+				// Stop looping if we have enough words!
 				if( count($retAr) >= $this->dummyWords )
 				{
 				
@@ -259,6 +516,19 @@
 				return false;
 				
 			}
+			
+		}
+		
+		/*
+		 * 
+		 * TODO
+		 * 
+		 */
+		
+		public function error( $n, $txt )
+		{
+			
+			echo $n . " - " . $txt;
 			
 		}
 		

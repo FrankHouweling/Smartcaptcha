@@ -1,14 +1,22 @@
-<?php
-
-	error_reporting(E_ALL);
-	ini_set('display_errors','On');
-
-	require( "scaptcha/scaptcha.inc.php" );
-
-	$captcha = new SmartCaptcha();
+<!doctype>
+<html>
 	
-	$captcha->setBgPlainColorFromHex( "#086A87" );
+	<head>
+		<title>CAPTCHA</title>
+	</head>
 	
-	$captcha->draw();
-
-?>
+	<body>
+		
+		<br />
+		<br />
+		<br />
+		<br />
+		
+		<center>
+			<h1>Which of the following words is a piece fo furniture</h1>
+			<img src="image.php" alt="Captcha" />
+		</center>
+		
+	</body>
+	
+</html>
