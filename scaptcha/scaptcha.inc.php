@@ -23,6 +23,9 @@
 		
 		private $bgPlainColor;
 		
+		private $lang;
+		private $dummyWords;
+		
 		/*
 		 * 
 		 * Constructor
@@ -34,8 +37,10 @@
 			
 			// Set default height and width
 			
-			$this->height	=	100;
-			$this->width	=	300;
+			$this->height		=	100;
+			$this->width		=	300;
+			$this->dummyWords	=	3;
+			$this->setLanguage( "en" );
 			
 		}
 		
@@ -68,6 +73,10 @@
 		
 		public function draw()
 		{
+			
+			var_dump( $this->generateDummyText() );
+			
+			die();
 			
 			header("content-type: image/png"); 
 			
@@ -105,6 +114,7 @@
 		
 		/*
 		 * 
+		 * TODO
 		 * 
 		 */
 		
@@ -162,6 +172,7 @@
 		
 		/*
 		 * 
+		 * TODO
 		 * 
 		 */
 		
@@ -184,6 +195,70 @@
 		{
 			
 			echo "Hoi!";
+			
+		}
+		
+		public function setDummyWords( $cnt )
+		{
+			
+			$this->dummyWords	=	(int)$cnt;
+			
+		}
+		
+		/*
+		 * 
+		 * 
+		 * 
+		 */
+		
+		private function generateDummyText()
+		{
+			
+			// First load the file..
+			
+			$tmp	=	file( "data/" . $this->lang . "/dict.txt" );
+			
+			$retAr	=	array();
+			
+			while( true )
+			{
+				
+				$retAr[]	=	$tmp[ array_rand( $tmp ) ];
+				
+				if( count($retAr) >= $this->dummyWords )
+				{
+				
+					break;
+					
+				}
+				
+			}
+			
+			return $retAr;
+			
+		}
+		
+		/*
+		 * 
+		 * TODO
+		 * 
+		 */
+		
+		public function setLanguage( $langcode )
+		{
+			
+			if( strlen($langcode) == 2 )
+			{
+				
+				$this->lang	=	$langcode;
+				
+			}
+			else
+			{
+				
+				return false;
+				
+			}
 			
 		}
 		
