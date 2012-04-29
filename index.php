@@ -21,8 +21,7 @@
 			<h1>Which of the following words is a piece fo furniture</h1>
 			<img src="image.php" alt="Captcha" />
 			<p>
-				The answer is:
-				<?php echo $_SESSION['secretword'];?>
+				<a href="new.php" target="_blank">Antwoord</a>
 			</p>
 		</center>
 		

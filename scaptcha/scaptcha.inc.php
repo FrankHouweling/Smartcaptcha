@@ -180,7 +180,7 @@
 			
 			$gen	=	$this->generateDummyText(1);
 			
-			$this->checkText	=	"chair";
+			$this->checkText	=	$gen[0];
 			
 		}
 		
@@ -266,7 +266,7 @@
 				else
 				{
 					
-					$x	=	( $this->textsDrawn - 1 ) * 40 + ( $this->lastTextLength * 10 ) + rand( 5 , 18 );
+					$x	=	( $this->textsDrawn - 1 ) * 40 + ( $this->lastTextLength * 3 ) + rand( 5 , 18 );
 					
 				}
 				
