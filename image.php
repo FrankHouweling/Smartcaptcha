@@ -21,31 +21,27 @@
 	
 		$captcha = new SmartCaptcha();
 		
-		$captcha->setBgPlainColorFromHex( "#FFFFFF" );
-		
-		$captcha->setDefaultTextColorFromHex( "#000000" );
-		
-		$captcha->setAchtergrondRuis( false );
-		
-		$captcha->setVoorgrondRuis( false );
-		
-		$captcha->setNoTextShadow( true );
+		$captcha->setLanguage( "nl" );
 		
 		$captcha->draw();
 		
 		$img = ob_get_clean();
 	
-		$_SESSION['img']	=	$img;
+		$_SESSION['img']		=	$img;
 		$_SESSION['secretword']	=	$captcha->getCheckText();
+		$question				=	$captcha->getQuestion();
+		
+		$_SESSION['question']	=	$question;
 		
 	}
 	else
 	{
 		
-		$img	=	$_SESSION['img'];
+		$img		=	$_SESSION['img'];
+		$question	=	$_SESSION['question'];
 		
 	}
 
-	echo base64_encode($img);
+	$img	=	 base64_encode($img);
 
 ?>

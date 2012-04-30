@@ -46,6 +46,8 @@
 		
 		private $defaultTextColor;
 		
+		private $question;
+		
 		
 		/*
 		 * 
@@ -110,7 +112,7 @@
 			
 			// Create background if color is given
 			
-			if( $this->bgPlainColor !== NULL )
+			if( $this->bgPlainColor !== NULL AND $this->bgPlainColor !== false )
 			{
 				
 				$red = ImageColorAllocate(	
@@ -120,6 +122,14 @@
 
 				ImageFillToBorder($this->image, 0, 0, $red, $red);	
 				
+			}
+			else
+			{
+					
+				$clr	=	$this->getRandomColor( $this->image );
+				
+				ImageFillToBorder( $this->image, 0, 0, $clr, $clr);
+			
 			}
 			
 			
@@ -231,9 +241,29 @@
 		public function generateCheckText()
 		{
 			
-			$gen	=	$this->generateDummyText(1);
+			require_once( $this->dataPath . $this->lang . "/dat.php" );
 			
-			$this->checkText	=	$gen[0];
+			// TODO how do I do this in a better way?
+			
+			$n	=	rand( 0, count($sets) - 1 );
+			
+			foreach( $sets as $key => $value )
+			{
+				
+				if( $key == $n )
+				{
+				
+					$word			=	$value[ array_rand($value) ];
+					
+					$this->question	=	str_replace("{word}", $key, $question);
+					
+					break;
+					
+				}
+				
+			}
+			
+			$this->checkText	=	$word;
 			
 		}
 		
@@ -804,6 +834,19 @@
 		{
 			
 			echo $n . " - " . $txt;
+			
+		}
+		
+		/*
+		 * 
+		 * TODO
+		 * 
+		 */
+		
+		public function getQuestion()
+		{
+			
+			return $this->question;
 			
 		}
 		

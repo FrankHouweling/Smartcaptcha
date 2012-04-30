@@ -13,8 +13,9 @@
 		<br />
 		
 		<center>
-			<h1>Which of the following words is a piece fo furniture</h1>
-			<img src="data:image/png;base64,<?php require("image.php"); ?>" alt="Captcha" />
+			<?php require("image.php"); ?>
+			<h1><?php echo $question;?></h1>
+			<img src="data:image/png;base64,<?php echo $img?>" alt="Captcha" />
 			<p>
 				<a href="new.php" target="_blank">Antwoord</a>
 			</p>
