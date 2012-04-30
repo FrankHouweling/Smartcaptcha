@@ -42,6 +42,9 @@
 		private $lastTextLength;
 		
 		private $achtergrondRuis;
+		private $voorgrondRuis;
+		
+		private $defaultTextColor;
 		
 		
 		/*
@@ -62,6 +65,7 @@
 			$this->dataPath		=	"scaptcha/data/";
 			$this->noShadow		=	false;
 			$this->achtergrondRuis	=	true;
+			$this->voorgrondRuis	=	false;
 			
 		}
 		
@@ -94,8 +98,6 @@
 		
 		public function draw()
 		{
-			
-			//header("content-type: image/png"); 
 			
 			// Create image if not yet created
 			
@@ -181,16 +183,36 @@
 				
 			}
 			
-			// And some distortion
+			// Voorgrondruis
+
 			
-			if( $this->bgPlainColor == NULL )
+			if( $this->voorgrondRuis == true )
 			{
 				
-				$this->drawText( "SOME DISTORTION AND STUFF TO TEST THIS OUT", $this->bgPlainColor, false, 20, 40 );
-			
-				$this->drawText( "SOME DISTORTION AND STUFF TO TEST THIS OUT", $this->getRandomColor($this->image), false, 20, 10 );
+				for( $i = 0; $i < rand(30, 50); $i++ )
+				{
+					
+					switch( rand(1,2) )
+					{
+						case 1:
+							imagearc( $this->image, rand(0,$this->width),rand(0,$this->height), rand(0,$this->width), rand(0,$this->height),  0, rand(10,360), ImageColorAllocate(	
+						$this->image, $this->bgPlainColor["r"], 
+						$this->bgPlainColor["g"], 
+						$this->bgPlainColor["b"]));
+						break;
+						case 2:
+							imageline( $this->image, rand(0,$this->width), rand(0,$this->height),rand(0,$this->width), rand(0,$this->height) , ImageColorAllocate(	
+						$this->image, $this->bgPlainColor["r"], 
+						$this->bgPlainColor["g"], 
+						$this->bgPlainColor["b"]) );
+						break;
+					}					
+					
+				}
+				
 				
 			}
+			
 			
 			//Het plaatje aanmaken. 
 			ImagePng($this->image); 
@@ -221,7 +243,7 @@
 		 * 
 		 */
 		
-		private function drawText( $dummyWord, $tmpcolor = false, $shadow = true, $x = false, $y = false )
+		private function drawText( $dummyWord, $tmpcolor = false, $shadow = true, $x = false, $givenY = false )
 		{
 			// First get the color
 			
@@ -229,8 +251,18 @@
 			
 			if( $tmpcolor == false )
 			{
-			
-				$tmpcolor	=	$this->getRandomColor( $this->image );
+				if( $this->defaultTextColor !== NULL )
+				{
+					
+					$tmpcolor = imagecolorallocate($this->image, $this->defaultTextColor["r"], $this->defaultTextColor["g"], $this->defaultTextColor["b"]);
+					
+				}
+				else
+				{
+					
+					$tmpcolor	=	$this->getRandomColor( $this->image );
+					
+				}
 				
 			}
 			else
@@ -245,41 +277,78 @@
 			$this->dataPath . "/fonts/" . $this->getRandomFont();
 				
 			// The Y-position
-			if( $y == false )
+			if( $givenY == false )
 			{
 			
 				if( $this->lastY == NULL )
 				{
 					
-					$y			=	  rand(25, ($this->height - 20));
+					// Start somewhere on the image...
+					
+					$y			=	  rand(25, ($this->height - 25));
 					
 				}
 				else
 				{
+					// Make sure it does not overlap other texts
 					
-					if( $this->lastY < 25 )
+					// echo "<br /><br />Last: " . $this->lastY . "<br /.<br />";
+					
+					if( $this->lastY < 60 )
 					{
 						
-						$y	=	rand( $this->lastY + 25, ( $this->height - 25 ) );
+						// echo "Begin...";
+						
+						$y	=	rand( 60, ( $this->height - 25 ) );
 						
 					}
-					else if( $this->lastY > ( $this->height - 20 ) )
+					else if( $this->lastY > ( $this->height - 60 ) )
 					{
 						
-						$y	=	rand( 25, $this->lastY - 25 );
+						// echo "Einde...";
+						
+						$y	=	rand( 25, $this->height - 60 );
 						
 					}
 					else
 					{
 						
-						$y	=	rand(25, ( $this->height - 25 ) );
+						// echo "Midden...";
+						
+						// Vorige in het midden.. dan nu het begin of einde he!
+						
+						switch( rand(1,2) )
+						{
+							
+							case 1:
+								
+								// echo " dus begin.";
+								
+								$y	=	rand(25, 45 );
+								
+							break;
+							case 2:
+								
+								// echo " dus einde.";
+								
+								$y	=	rand( ($this->height - 25 ), ( $this->height - 55 ) );
+								
+							break;
+							
+						}
 						
 					}
 					
-					$y			=	rand(25, ($this->height - 25));
+					// echo "<br /> New Y:" . $y . "<br /><br /.";
 					
 				}
 				
+				
+			}
+			else
+			{
+				
+				$y	=	$givenY;
 				
 			}
 			
@@ -306,7 +375,7 @@
 			}
 			
 				
-			$turn		=	rand(-13,12);
+			$turn		=	rand(-5,8);
 				
 			$fontSize	=	rand(20,30);
 			
@@ -522,6 +591,35 @@
 			
 		}
 		
+		/*
+		 * 
+		 * TODO
+		 * 
+		 */
+		
+		public function setDefaultTextColorFromHex( $hex )
+		{
+			
+			$color	=	$this->hex2rgb( $hex );
+			
+			$this->setDefaultTextColor( $color[0], $color[1], $color[2] );
+			
+		}
+		
+		/*
+		 * 
+		 * TODO
+		 * 
+		 */
+		
+		public function setDefaultTextColor( $r, $g, $b )
+		{	//	FOR RGB
+		
+		
+			$this->defaultTextColor	=	array( "r" => $r, "g" => $g, "b" => $b );
+			
+		}
+		
 		public function setAmoundDummyWords( $cnt )
 		{
 			
@@ -642,6 +740,33 @@
 			}
 			
 		}
+		
+		/*
+		 * 
+		 * TODO
+		 *
+		 */
+		
+		public function setVoorgrondRuis( $bool )
+		{
+			
+			if( is_bool($bool) )
+			{
+				
+				$this->voorgrondRuis	=	$bool;
+				
+				return true;
+				
+			}
+			else
+			{
+			
+				return false;
+			
+			}
+			
+		}
+		
 		
 		/*
 		 * 
