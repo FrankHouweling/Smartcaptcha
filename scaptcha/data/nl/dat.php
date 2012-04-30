@@ -6,7 +6,7 @@
 	 * 
 	 */
 	
-	$question	=	"Schrijf a.u.b. het woord over die een {word} is.";
+	$question	=	"Wat van het volgende is een {word}?";
 
 	$sets	=	array(
 	
