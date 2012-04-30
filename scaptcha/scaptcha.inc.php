@@ -238,6 +238,31 @@
 		 * 
 		 */
 		
+		public function setSize( $width = false , $height = false )
+		{
+			
+			if( $width !== false )
+			{
+				
+				$this->width	=	$width;
+				
+			}
+			
+			if( $height !== false )
+			{
+				
+				$this->height	=	$height;
+				
+			}
+			
+		}
+
+		/*
+		 * 
+		 * TODO
+		 * 
+		 */
+		
 		public function generateCheckText()
 		{
 			
@@ -675,7 +700,7 @@
 			else
 			{
 				
-				$aantal	=	 $this->dummyWords;
+				$aantal	=	 $this->amoundDummyWords + 1;
 				
 			}
 			

@@ -31,6 +31,10 @@
 		
 		// Captcha-settings
 		
+		$captcha->setSize( 400, 180 );
+		
+		$captcha->setAmoundDummyWords( 1 );
+		
 		$captcha->setLanguage( "nl" );
 		
 		$captcha->draw();
@@ -91,7 +95,7 @@
 			
 			<p>
 				
-				<a href="index.php?reset">New captcha!</a>
+				<a href="demo.php?reset">New captcha!</a>
 				
 			</p>
 		</center>
