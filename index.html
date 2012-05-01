@@ -120,8 +120,7 @@ $img	=	 base64_encode($img);</code>
    	</p>
    	<pre>
    		<code>&#60;h4>&#60;?php echo $question;?&#62;&#60;/h4&#62;
-&#60;img src="data:image/png;base64,&#60;?php echo $img?&#62;" alt="Captcha image" /&#62;
-   		</code>
+&#60;img src="data:image/png;base64,&#60;?php echo $img?&#62;" alt="Captcha image" /&#62;</code>
    	</pre>
    	
    	<p>In the other page, where you want to check if the image is filled in correctly you can use the <code>$_SESSION['secretword']</code> where the correct answer is stored. <strong>It's simple as that!</strong></p>
