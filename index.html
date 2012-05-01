@@ -38,7 +38,7 @@
 	This is not the way it should be. Users shouldnt be bothered by a difficult task like making something usefull out of a recaptcha image,
 	and spambots should be kept away from your service by a good turing test.<br /> This sounds really difficult, but it's not. It's because
 	spambots aren't <strong>smart</strong>. For them carrots aren't a vegetable. Carrots is a string out of 7 characters.<br />
-	By using the fact that humans are smart, this open source project made an captcha task which is imposibile for bots, and almost too easy for a user.
+	By using the fact that humans are smart, this open source project made a captcha task which is imposibile for bots, and almost too easy for a user.
 	
 </p>
 
@@ -60,7 +60,7 @@ $ git checkout gh-pages
 
 <img src="https://github.com/Frizzy112/Smartcaptcha/blob/master/demoimage.png?raw=true" alt="Which of the following is a piece of furniture? Bladie, bladie or table?" />
 
-
+<!--
 <h3>Rather Drive Stick?</h3>
 
 <p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
@@ -73,6 +73,63 @@ $ git checkout gh-pages
 
 <p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
      
+   -->
+   
+   <h3>Pfff.. this will take me another 2 hours to istall</h3>
+   
+   <p>
+   		No it doesn't! Smartcaptcha is made by smart people just like you who really don't have the time to make something out of nothing.
+   		You can just copy-paste the code below, change some things, and your up and running!
+   </p>
+   <p>Create a new captcha image in your form page:</p>
+   <pre>
+   	<code>
+   	// Include the Simple-captcha class
+
+	require( "scaptcha/scaptcha.inc.php" );
+	
+	ob_start();
+
+	$captcha = new SmartCaptcha();
+
+	$captcha->draw();
+
+	//	load the image from the OB into the $img var.
+
+	$img = ob_get_clean();
+	$secretword	=	$captcha->getCheckText();
+	$question				=	$captcha->getQuestion();
+
+		// Put it in the SESSION-data for later use.
+
+	$_SESSION['secretword']	=	$secretword;
+	
+	/*
+	 * 
+	 * BASE 64 is a really easy way to use an image in the same page.
+	 * 
+	 * <img src="data:image/png;base64,{ your data }" />
+	 * 
+	 */
+
+	$img	=	 base64_encode($img);
+	
+   	</code>
+   	
+   </pre>
+   
+   
+   	<p>
+   		You can now just use <code>$img</code> as a base64 image file in your code and <code>$question</code> ast he assosiated captcha question.
+   	</p>
+   	<pre>
+   		<code>
+   			<h4><?php echo $question;?></h4>
+			<img src="data:image/png;base64,<?php echo $img?>" alt="Captcha image" />
+   		</code>
+   	</pre>
+   	
+   	<p>In the other page, where you want to check if the image is filled in correctly you can use the <code>$_SESSION['secretword']</code> where the correct answer is stored. <strong>It's simple as that!</strong></p>
      
      
       </section>
