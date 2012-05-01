@@ -83,38 +83,34 @@ $ git checkout gh-pages
    </p>
    <p>Create a new captcha image in your form page:</p>
    <pre>
-   	<code>
-   	// Include the Simple-captcha class
+   	<code>// Include the Simple-captcha class
 
-	require( "scaptcha/scaptcha.inc.php" );
+require( "scaptcha/scaptcha.inc.php" );
 	
-	ob_start();
+ob_start();
 
-	$captcha = new SmartCaptcha();
+$captcha = new SmartCaptcha();
+$captcha->draw();
 
-	$captcha->draw();
+//	load the image from the OB into the $img var.
 
-	//	load the image from the OB into the $img var.
+$img = ob_get_clean();
+$secretword	=	$captcha->getCheckText();
+$question				=	$captcha->getQuestion();
 
-	$img = ob_get_clean();
-	$secretword	=	$captcha->getCheckText();
-	$question				=	$captcha->getQuestion();
+// Put it in the SESSION-data for later use.
 
-		// Put it in the SESSION-data for later use.
-
-	$_SESSION['secretword']	=	$secretword;
+$_SESSION['secretword']	=	$secretword;
 	
-	/*
-	 * 
-	 * BASE 64 is a really easy way to use an image in the same page.
-	 * 
-	 * &#60;img src="data:image/png;base64,{ your data }" /&#62;
-	 * 
-	 */
+/*
+ * 
+ * BASE 64 is a really easy way to use an image in the same page.
+ * 
+ * &#60;img src="data:image/png;base64,{ your data }" /&#62;
+ * 
+ */
 
-	$img	=	 base64_encode($img);
-	
-   	</code>
+$img	=	 base64_encode($img);</code>
    	
    </pre>
    
@@ -123,9 +119,8 @@ $ git checkout gh-pages
    		You can now just use <code>$img</code> as a base64 image file in your code and <code>$question</code> ast he assosiated captcha question.
    	</p>
    	<pre>
-   		<code>
-   			&#60;h4>&#60;?php echo $question;?&#62;&#60;/h4&#62;
-			&#60;img src="data:image/png;base64,&#60;?php echo $img?&#62;" alt="Captcha image" /&#62;
+   		<code>&#60;h4>&#60;?php echo $question;?&#62;&#60;/h4&#62;
+&#60;img src="data:image/png;base64,&#60;?php echo $img?&#62;" alt="Captcha image" /&#62;
    		</code>
    	</pre>
    	
