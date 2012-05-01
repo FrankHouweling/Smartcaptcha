@@ -108,7 +108,7 @@ $ git checkout gh-pages
 	 * 
 	 * BASE 64 is a really easy way to use an image in the same page.
 	 * 
-	 * <img src="data:image/png;base64,{ your data }" />
+	 * &#60;img src="data:image/png;base64,{ your data }" /&#62;
 	 * 
 	 */
 
@@ -124,8 +124,8 @@ $ git checkout gh-pages
    	</p>
    	<pre>
    		<code>
-   			<h4><?php echo $question;?></h4>
-			<img src="data:image/png;base64,<?php echo $img?>" alt="Captcha image" />
+   			&#60;h4>&#60;?php echo $question;?&#62;&#60;/h4&#62;
+			&#60;img src="data:image/png;base64,&#60;?php echo $img?&#62;" alt="Captcha image" /&#62;
    		</code>
    	</pre>
    	
