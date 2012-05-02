@@ -213,7 +213,7 @@ $captcha->draw();?&#62;</code>
      	<h4>setBgPlainColor <span style="color:#636363">int</span> $r, <span style="color:#636363">int</span> $g, <span style="color:#636363">int</span> $b</h4>
      	
      	<p>
-     		This function will change the background color to a plain color specified with this method. If not specified Smartcaptcha will use a random background.
+     		This function will change the backgroundcolor to a plain color specified by this method. If not specified Smartcaptcha will use a random background.
      		This method needs three arguments. The R, G and B value of the color, in that order.
      	</p>
      	
@@ -223,6 +223,23 @@ $captcha->draw();?&#62;</code>
      		<code>&#60;?php
 $captcha = new SmartCaptcha;
 $captcha->setBgPlainColor( 0 , 0 , 0 );
+$captcha->draw();?&#62;</code>
+     	</pre>
+     	
+     	<h4>setBgPlainColorFromHex <span style="color:#636363">string</span> $hex</h4>
+     	
+     	<p>
+     		This method will change the backgroundcolor to a plain color specified by this method. If not specified Smartcaptcha will use a random background.
+     		This method needs a valid <strong>full</strong> hex colorcode as an argument. This colorcode can be given with or without hash (#).<br />
+     		A HTML-shortcode like #000 will not work.
+     	</p>
+     	
+     	<h5>Usage</h5>
+     	<p>The following example will change the backgroundcolor to black.</p>
+     	<pre>
+     		<code>&#60;?php
+$captcha = new SmartCaptcha;
+$captcha->setBgPlainColorFromHex( "#000000" );
 $captcha->draw();?&#62;</code>
      	</pre>
      	
