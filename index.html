@@ -159,6 +159,32 @@ $img	=	 base64_encode($img);</code>
      	<ul>
      		<li>Plugin-support for big open source software like phpbb. Just install a simple plugin and Smartcaptcha is fully working.</li>
      	</ul>
+     	
+     	<h3>Docs &amp; Settings</h3>
+     	
+     	<p>Real documentation for the different settings. Most of the people will prefer looking through the examples in <code>demo/</code> though.</p>
+     
+     	<h4>Draw <span style="color:#636363">bool</span> $encode (dflt. true)</h4>
+     	
+     	<p>
+     		This functions draws the final image. With $encode on true it will give you a base64 string which you can directly use in your HTML page,
+     		on false it will return the image itself with an PNG-header so it can only be used externally in a webpage.
+     		<br />Loading it external is a little more difficult to implement because you also want to get the corresponding question with 
+     		the image in the HTML-page. An advantage of loading it externally is the IE6-support.
+     		
+     	</p>
+     	
+     	<h5>Usage</h5>
+     	<p>The following example wil return an image inline and can be used inline.</p>
+     	<pre>
+     		<code>&#60;img src="data:image/png;base64,&#60;?php $captcha = new SmartCaptcha();
+$captcha->draw( true ); ?&#62; alt="Captcha" /&#62;</code>
+     	</pre>
+     	<p>This example must be included directly in the HTML-file by placing a link to the PHP file in the img-src attribute.</p>
+     	<pre>
+     		<code>&#60;?php $captcha = new SmartCaptcha();
+$captcha->draw( false ); ?&#62;</code>
+     	</pre>
      
       </section>
       
