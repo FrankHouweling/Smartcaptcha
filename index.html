@@ -168,7 +168,7 @@ $img	=	 base64_encode($img);</code>
      	
      	<p>Real documentation for the different settings. Most of the people will prefer looking through the examples in <code>demo/</code> though.</p>
      
-     	<h4>Draw <span style="color:#636363">bool</span> $encode (dflt. <span style="color:#636363">true</span>)</h4>
+     	<h4>draw <span style="color:#636363">bool</span> $encode (dflt. <span style="color:#636363">true</span>)</h4>
      	
      	<p>
      		This functions draws the final image. With $encode on true it will give you a base64 string which you can directly use in your HTML page,
@@ -182,7 +182,7 @@ $img	=	 base64_encode($img);</code>
      	<p>The following example wil return an image inline and can be used inline.</p>
      	<pre>
      		<code>&#60;img src="data:image/png;base64,&#60;?php $captcha = new SmartCaptcha();
-$captcha->draw( true ); ?&#62; alt="Captcha" /&#62;</code>
+$captcha->draw( true ); ?&#62;" alt="Captcha" /&#62;</code>
      	</pre>
      	<p>This example must be included directly in the HTML-file by placing a link to the PHP file in the img-src attribute.</p>
      	<pre>
@@ -190,6 +190,41 @@ $captcha->draw( true ); ?&#62; alt="Captcha" /&#62;</code>
 $captcha->draw( false ); ?&#62;</code>
      	</pre>
      	
+     	<h4>setSize <span style="color:#636363">int</span> $width (dflt. <span style="color:#636363">false</span>), <span style="color:#636363">int</span> $height (dflt. <span style="color:#636363">false</span>)</h4>
+     	
+     	<p>
+     		This will change the size of the result-image. Method should be called <strong>before</strong> <code>$captcha->draw();</code>.
+     		Will take an int (size in px.) if the width/height should be changed, or false if it should stay the same.
+     	</p>
+     	<p>
+     		The default size of a Smartcaptcha image is 110 by 330px. It is not recommended to go lower then 90 by 250px.
+     	</p>
+     	
+     	<h5>Usage</h5>
+     	<p>The following example will keep the image his width at default value, and will change the height to 300px.</p>
+     	<pre>
+     		<code>&#60;?php
+$captcha = new SmartCaptcha;
+$captcha->setSize( false, 300 );
+$captcha->draw();?&#62;</code>
+     	</pre>
+     	
+     	
+     	<h4>setBgPlainColor <span style="color:#636363">int</span> $r, <span style="color:#636363">int</span> $g, <span style="color:#636363">int</span> $b</h4>
+     	
+     	<p>
+     		This function will change the background color to a plain color specified with this method. If not specified Smartcaptcha will use a random background.
+     		This method needs three arguments. The R, G and B value of the color, in that order.
+     	</p>
+     	
+     	<h5>Usage</h5>
+     	<p>The following example will change the backgroundcolor to black.</p>
+     	<pre>
+     		<code>&#60;?php
+$captcha = new SmartCaptcha;
+$captcha->setBgPlainColor( 0 , 0 , 0 );
+$captcha->draw();?&#62;</code>
+     	</pre>
      	
       </section>
       
