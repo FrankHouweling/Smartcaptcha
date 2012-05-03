@@ -98,7 +98,7 @@
 		 * 
 		 */
 		
-		public function draw( $encode = falsee )
+		public function draw( $encode = true )
 		{
 			
 			if( $encode == true )
@@ -241,6 +241,15 @@
 			{
 				
 				$img = ob_get_clean();
+				
+				
+				/*
+				 * 
+				 * BASE 64 is a really easy way to use an image in the same page.
+				 * 
+				 * <img src="data:image/png;base64,{ your data }" />
+				 * 
+				 */
 				
 				return base64_encode($img);
 				
