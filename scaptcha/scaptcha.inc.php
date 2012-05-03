@@ -98,8 +98,15 @@
 		 * 
 		 */
 		
-		public function draw()
+		public function draw( $encode = falsee )
 		{
+			
+			if( $encode == true )
+			{
+				
+				ob_start();
+				
+			}
 			
 			// Create image if not yet created
 			
@@ -229,6 +236,15 @@
 			
 			//Het plaatje verwijderen uit het geheugen 
 			ImageDestroy($this->image); 
+			
+			if( $encode == true )
+			{
+				
+				$img = ob_get_clean();
+				
+				return base64_encode($img);
+				
+			}
 			
 		}
 
