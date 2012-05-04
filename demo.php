@@ -25,27 +25,13 @@
 	if( !isset( $_SESSION['img'] ) )
 	{	// First time SESSION
 	
+		// Load the image...
 		$captcha = new SmartCaptcha();
-		
-		// Captcha-settings
-		
-		$captcha->setSize( 400, 180 );
-		
-		$captcha->setAmoundDummyWords( 1 );
-		
-		$captcha->setLanguage( "nl" );
-		
 		$img = $captcha->draw();
 		
-		//	load the image from the OB into the $img var.
+		//	Just load some more data...
 		$secretword	=	$captcha->getCheckText();
-		$question				=	$captcha->getQuestion();
-		
-		// Put it in the SESSION-data for later use.
-	
-		$_SESSION['img']		=	$img;
-		$_SESSION['secretword']	=	$secretword;
-		$_SESSION['question']	=	$question;
+		$question	=	$captcha->getQuestion();
 		
 	}
 	else

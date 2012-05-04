@@ -242,6 +242,10 @@
 				
 				$img = ob_get_clean();
 				
+				$_SESSION['img']		=	base64_encode($img);
+				$_SESSION['secretword']	=	$this->getCheckText();
+				$_SESSION['question']	=	$this->getQuestion();
+					
 				
 				/*
 				 * 
