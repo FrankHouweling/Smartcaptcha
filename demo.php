@@ -25,31 +25,13 @@
 	if( !isset( $_SESSION['img'] ) )
 	{	// First time SESSION
 	
-		ob_start();
-	
+		// Load the image...
 		$captcha = new SmartCaptcha();
+		$img = $captcha->draw();
 		
-		// Captcha-settings
-		
-		$captcha->setSize( 400, 180 );
-		
-		$captcha->setAmoundDummyWords( 1 );
-		
-		$captcha->setLanguage( "nl" );
-		
-		$captcha->draw();
-		
-		//	load the image from the OB into the $img var.
-		
-		$img = ob_get_clean();
+		//	Just load some more data...
 		$secretword	=	$captcha->getCheckText();
-		$question				=	$captcha->getQuestion();
-		
-		// Put it in the SESSION-data for later use.
-	
-		$_SESSION['img']		=	$img;
-		$_SESSION['secretword']	=	$secretword;
-		$_SESSION['question']	=	$question;
+		$question	=	$captcha->getQuestion();
 		
 	}
 	else
@@ -60,16 +42,6 @@
 		$secretword	=	$_SESSION['secretword'];
 		
 	}
-	
-	/*
-	 * 
-	 * BASE 64 is a really easy way to use an image in the same page.
-	 * 
-	 * <img src="data:image/png;base64,{ your data }" />
-	 * 
-	 */
-
-	$img	=	 base64_encode($img);
 
 ?>
 <!doctype>

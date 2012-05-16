@@ -1,7 +1,4 @@
 <?php
-
-	session_start();
-	
 	/*
 	 * 
 	 * Scaptcha.inc.php
@@ -9,6 +6,14 @@
 	 * Smartcaptcha main class.
 	 * 
 	 */
+	
+	// Thanks Chris
+	if( !isset( $_SESSION ) )
+	{
+				
+		session_start();
+			  
+	}
 
 	// Disable direct opening of the file.
 
@@ -58,6 +63,7 @@
 		function __construct()
 		{
 			
+			
 			// Set default height and width
 			
 			$this->height		=	110;
@@ -98,8 +104,15 @@
 		 * 
 		 */
 		
-		public function draw()
+		public function draw( $encode = true )
 		{
+			
+			if( $encode == true )
+			{
+				
+				ob_start();
+				
+			}
 			
 			// Create image if not yet created
 			
@@ -229,6 +242,28 @@
 			
 			//Het plaatje verwijderen uit het geheugen 
 			ImageDestroy($this->image); 
+			
+			if( $encode == true )
+			{
+				
+				$img = ob_get_clean();
+				
+				$_SESSION['img']		=	base64_encode($img);
+				$_SESSION['secretword']	=	$this->getCheckText();
+				$_SESSION['question']	=	$this->getQuestion();
+					
+				
+				/*
+				 * 
+				 * BASE 64 is a really easy way to use an image in the same page.
+				 * 
+				 * <img src="data:image/png;base64,{ your data }" />
+				 * 
+				 */
+				
+				return base64_encode($img);
+				
+			}
 			
 		}
 
