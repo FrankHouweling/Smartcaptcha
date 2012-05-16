@@ -1,5 +1,7 @@
 <?php
 
+	ini_set('memory_limit', '64M');
+
 	error_reporting(E_ALL);
 	ini_set('display_errors','On');
 
@@ -22,26 +24,20 @@
 
 	// Check if the image is already in the session
 
-	if( !isset( $_SESSION['img'] ) )
-	{	// First time SESSION
+	// Load the image...
+	$captcha = new SmartCaptcha();
 	
-		// Load the image...
-		$captcha = new SmartCaptcha();
-		$img = $captcha->draw();
+	$captcha->setBgPlainColorFromHex( "#FFFFFF" );
+	$captcha->setDefaultTextColorFromHex( "#000000" );
+	$captcha->setAchtergrondRuis( false );
+	$captcha->setTextShadow( false );
+	
+	$img = $captcha->draw();
 		
-		//	Just load some more data...
-		$secretword	=	$captcha->getCheckText();
-		$question	=	$captcha->getQuestion();
+	//	Just load some more data...
+	$secretword	=	$captcha->getCheckText();
+	$question	=	$captcha->getQuestion();
 		
-	}
-	else
-	{	//	Just load the image from the SESSION-data.
-		
-		$img		=	$_SESSION['img'];
-		$question	=	$_SESSION['question'];
-		$secretword	=	$_SESSION['secretword'];
-		
-	}
 
 ?>
 <!doctype>

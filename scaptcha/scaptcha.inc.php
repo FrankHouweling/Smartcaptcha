@@ -68,7 +68,7 @@
 			
 			$this->height		=	110;
 			$this->width		=	330;
-			$this->dummyWords	=	2;
+			$this->amoundDummyWords	=	2;
 			$this->setLanguage( "en" );
 			$this->dataPath		=	"scaptcha/data/";
 			$this->noShadow		=	false;
@@ -735,10 +735,9 @@
 			else
 			{
 				
-				$aantal	=	 $this->amoundDummyWords + 1;
+				$aantal	=	 $this->amoundDummyWords;
 				
 			}
-			
 			// First load the file..
 			
 			$tmp	=	file( $this->dataPath . $this->lang . "/dict.txt" );
@@ -864,13 +863,13 @@
 		 *
 		 */
 		
-		public function setNoTextShadow( $bool )
+		public function setTextShadow( $bool )
 		{
 			
 			if( is_bool($bool) )
 			{
 				
-				$this->noShadow	=	$bool;
+				$this->noShadow	=	!$bool;
 				
 				return true;
 				
