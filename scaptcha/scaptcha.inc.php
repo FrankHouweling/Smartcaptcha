@@ -1,4 +1,7 @@
 <?php
+
+	session_start();
+	
 	/*
 	 * 
 	 * Scaptcha.inc.php
@@ -6,14 +9,6 @@
 	 * Smartcaptcha main class.
 	 * 
 	 */
-	
-	// Thanks Chris
-	if( !isset( $_SESSION ) )
-	{
-				
-		session_start();
-			  
-	}
 
 	// Disable direct opening of the file.
 
@@ -62,7 +57,6 @@
 		
 		function __construct()
 		{
-			
 			
 			// Set default height and width
 			
