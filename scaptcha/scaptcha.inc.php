@@ -14,6 +14,7 @@
 		session_start();
 			  
 	}
+	
 
 	// Disable direct opening of the file.
 
@@ -107,161 +108,185 @@
 		public function draw( $encode = true )
 		{
 			
-			if( $encode == true )
+			if( isset( $_SESSION['img'] ) )
 			{
 				
+				if( $encode == true )
+				{
+					
+					return base64_encode( $_SESSION['img'] );
+					
+				}
+				else
+				{
+					
+					return $_SESSION['img'];
+					
+				}
+				
+			}
+			else{
+
+					
 				ob_start();
 				
-			}
-			
-			// Create image if not yet created
-			
-			if( $this->image == NULL )
-			{
+				// Create image if not yet created
 				
-				$this->createImage();
-				
-			}
-			
-			// Create background if color is given
-			
-			if( $this->bgPlainColor !== NULL AND $this->bgPlainColor !== false )
-			{
-				
-				$red = ImageColorAllocate(	
-						$this->image, $this->bgPlainColor["r"], 
-						$this->bgPlainColor["g"], 
-						$this->bgPlainColor["b"]);
-
-				ImageFillToBorder($this->image, 0, 0, $red, $red);	
-				
-			}
-			else
-			{
-					
-				$clr	=	$this->getRandomColor( $this->image );
-				
-				ImageFillToBorder( $this->image, 0, 0, $clr, $clr);
-			
-			}
-			
-			
-			// Achtergrondruis..
-			
-			// Lijnen
-			
-			if( $this->achtergrondRuis == true )
-			{
-				
-				for( $i = 0; $i < rand(10, 30); $i++ )
+				if( $this->image == NULL )
 				{
 					
-					switch( rand(1,2) )
+					$this->createImage();
+					
+				}
+				
+				// Create background if color is given
+				
+				if( $this->bgPlainColor !== NULL AND $this->bgPlainColor !== false )
+				{
+					
+					$red = ImageColorAllocate(	
+							$this->image, $this->bgPlainColor["r"], 
+							$this->bgPlainColor["g"], 
+							$this->bgPlainColor["b"]);
+	
+					ImageFillToBorder($this->image, 0, 0, $red, $red);	
+					
+				}
+				else
+				{
+						
+					$clr	=	$this->getRandomColor( $this->image );
+					
+					ImageFillToBorder( $this->image, 0, 0, $clr, $clr);
+				
+				}
+				
+				
+				// Achtergrondruis..
+				
+				// Lijnen
+				
+				if( $this->achtergrondRuis == true )
+				{
+					
+					for( $i = 0; $i < rand(10, 30); $i++ )
 					{
-						case 1:
-							imagearc( $this->image, rand(0,$this->width),rand(0,$this->height), rand(0,$this->width), rand(0,$this->height),  0, rand(10,360), $this->getRandomColor( $this->image ));
-						break;
-						case 2:
-							imageline( $this->image, rand(0,$this->width), rand(0,$this->height),rand(0,$this->width), rand(0,$this->height) , $this->getRandomColor( $this->image ) );
-						break;
-					}					
+						
+						switch( rand(1,2) )
+						{
+							case 1:
+								imagearc( $this->image, rand(0,$this->width),rand(0,$this->height), rand(0,$this->width), rand(0,$this->height),  0, rand(10,360), $this->getRandomColor( $this->image ));
+							break;
+							case 2:
+								imageline( $this->image, rand(0,$this->width), rand(0,$this->height),rand(0,$this->width), rand(0,$this->height) , $this->getRandomColor( $this->image ) );
+							break;
+						}					
+						
+					}
+					
 					
 				}
 				
 				
-			}
-			
-			
-			// Now draw the check text
-			
-			if( $this->checkText == NULL )
-			{
+				// Now draw the check text
 				
-				$this->generateCheckText();
-				
-			}
-			
-			
-			// Check if dummytext is aleady generated
-			
-			if( !is_array($this->dummyWords) )
-			{
-				
-				$this->dummyWords = $this->generateDummyText();
-				
-			}
-			
-			
-			// Draw the check text on the image
-			$this->dummyWords[]	=	$this->checkText;
-			
-			shuffle( $this->dummyWords );
-			
-			// Draw them dummywords!
-			
-			foreach( $this->dummyWords as $dummyWord )
-			{
-				
-				$this->drawText( $dummyWord );
-				
-			}
-			
-			// Voorgrondruis
-
-			
-			if( $this->voorgrondRuis == true )
-			{
-				
-				for( $i = 0; $i < rand(30, 50); $i++ )
+				if( $this->checkText == NULL )
 				{
 					
-					switch( rand(1,2) )
-					{
-						case 1:
-							imagearc( $this->image, rand(0,$this->width),rand(0,$this->height), rand(0,$this->width), rand(0,$this->height),  0, rand(10,360), ImageColorAllocate(	
-						$this->image, $this->bgPlainColor["r"], 
-						$this->bgPlainColor["g"], 
-						$this->bgPlainColor["b"]));
-						break;
-						case 2:
-							imageline( $this->image, rand(0,$this->width), rand(0,$this->height),rand(0,$this->width), rand(0,$this->height) , ImageColorAllocate(	
-						$this->image, $this->bgPlainColor["r"], 
-						$this->bgPlainColor["g"], 
-						$this->bgPlainColor["b"]) );
-						break;
-					}					
+					$this->generateCheckText();
 					
 				}
 				
 				
-			}
-			
-			
-			//Het plaatje aanmaken. 
-			ImagePng($this->image); 
-			
-			//Het plaatje verwijderen uit het geheugen 
-			ImageDestroy($this->image); 
-			
-			if( $encode == true )
-			{
+				// Check if dummytext is aleady generated
+				
+				if( !is_array($this->dummyWords) )
+				{
+					
+					$this->dummyWords = $this->generateDummyText();
+					
+				}
+				
+				
+				// Draw the check text on the image
+				$this->dummyWords[]	=	$this->checkText;
+				
+				shuffle( $this->dummyWords );
+				
+				// Draw them dummywords!
+				
+				foreach( $this->dummyWords as $dummyWord )
+				{
+					
+					$this->drawText( $dummyWord );
+					
+				}
+				
+				// Voorgrondruis
+	
+				
+				if( $this->voorgrondRuis == true )
+				{
+					
+					for( $i = 0; $i < rand(30, 50); $i++ )
+					{
+						
+						switch( rand(1,2) )
+						{
+							case 1:
+								imagearc( $this->image, rand(0,$this->width),rand(0,$this->height), rand(0,$this->width), rand(0,$this->height),  0, rand(10,360), ImageColorAllocate(	
+							$this->image, $this->bgPlainColor["r"], 
+							$this->bgPlainColor["g"], 
+							$this->bgPlainColor["b"]));
+							break;
+							case 2:
+								imageline( $this->image, rand(0,$this->width), rand(0,$this->height),rand(0,$this->width), rand(0,$this->height) , ImageColorAllocate(	
+							$this->image, $this->bgPlainColor["r"], 
+							$this->bgPlainColor["g"], 
+							$this->bgPlainColor["b"]) );
+							break;
+						}					
+						
+					}
+					
+					
+				}
+				
+				
+				//Het plaatje aanmaken. 
+				ImagePng($this->image); 
+				
+				//Het plaatje verwijderen uit het geheugen 
+				ImageDestroy($this->image); 
+				
+				// Create SESSION-data
 				
 				$img = ob_get_clean();
 				
-				$_SESSION['img']		=	base64_encode($img);
+				$_SESSION['img']		=	$img;
 				$_SESSION['secretword']	=	$this->getCheckText();
 				$_SESSION['question']	=	$this->getQuestion();
+				
+				if( $encode == true )
+				{
 					
-				
-				/*
-				 * 
-				 * BASE 64 is a really easy way to use an image in the same page.
-				 * 
-				 * <img src="data:image/png;base64,{ your data }" />
-				 * 
-				 */
-				
-				return base64_encode($img);
+					/*
+					 * 
+					 * BASE 64 is a really easy way to use an image in the same page.
+					 * 
+					 * <img src="data:image/png;base64,{ your data }" />
+					 * 
+					 */
+					
+					return base64_encode($img);
+					
+				}
+				else
+				{
+						
+					return $img;	
+					
+				}
 				
 			}
 			
