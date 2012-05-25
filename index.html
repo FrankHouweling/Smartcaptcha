@@ -246,7 +246,7 @@ $captcha->draw();?&#62;</code>
         
         <p>
             Set the language for the security question.
-            Accept values are the shortcodes for the languages.
+            Accepted values are language-shortcodes.
         </p>
         
         <h5>Supported languages</h5>
@@ -265,6 +265,29 @@ $captcha->draw();?&#62;</code>
             Don't create a new captcha image at every reload but save the data in
             a session. Default value is <strong>true</strong>.
             
+        </p>
+        
+        <h4>setAchtergrondRuis <span style="color:#636363">bool</span> $bool</h4>
+        
+        <p>
+            If true this will create random lines and circles throughout the image.
+            The default value of achtergrondRuis is true.
+        </p>
+        
+        
+        <h4>setVoorgrondRuis <span style="color:#636363">bool</span> $bool</h4>
+        
+        <p>
+            If true this will create random lines and circles throughout the image.
+            The default value of voorgrondRuis is the same as the plainBackgroundColor.
+            This noise will be made <strong>on top</strong> of the text.
+        </p>
+        
+        <h4>setTextShadow <span style="color:#636363">bool</span> $bool</h4>
+        
+        
+        <p>
+            Enable or disable a show for the texts in the captcha-image.
         </p>
         
      	<a href="http://www.freedomain.co.nr/" title="Free Domain Name"><img src="http://ceaemra.imdrv.net/co-nr.gif" alt="Free Domain Name" style="width:88px;height:31px;border:0;" /></a>
