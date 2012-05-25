@@ -825,6 +825,41 @@ class SmartCaptcha {
         }
         
     }
+    
+    /*
+     * 
+     * TODO
+     * 
+     */
+    
+    public function setDataPath( $dataPath )
+    {
+        
+        // First check if the path exists...
+        
+        if( is_dir( $dataPath ) == true )
+        {
+            
+            // Datapath is checked and clear!
+            
+            $this->dataPath = $dataPath;
+            
+            return true;
+            
+        }
+        else
+        {
+            
+            // Datapath is false...
+            
+            // TODO trigger error maybe?
+            
+            return false;
+            
+        }
+        
+        
+    }
 
 }
 
