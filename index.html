@@ -227,7 +227,46 @@ $captcha = new SmartCaptcha;
 $captcha->setBgPlainColorFromHex( "#000000" );
 $captcha->draw();?&#62;</code>
      	</pre>
+        
+        
+        <h4>getBgPlainColor</h4>
+        
+        <p>Will return the bg plain color in the form in an array with the r, g and b value.</p>
      	
+        
+        <h4>setAmoundDummyWords <span style="color:#636363">int</span> $amount</h4>
+        
+        <p>
+            How many words will be shown in the image apart from the answer to the security question.
+            The recommended value for this function is 2.
+            
+        </p>
+        
+        <h4>setLanguage <span style="color:#636363">string</span> $langcode</h4>
+        
+        <p>
+            Set the language for the security question.
+            Accept values are the shortcodes for the languages.
+        </p>
+        
+        <h5>Supported languages</h5>
+        
+        <p>
+            <ul>
+                <li><strong>NL</strong> - Nederlands, Dutch</li>
+                <li><strong>EN</strong> - English, English</li>
+            </ul>
+        </p>
+        
+        <h4>saveDataInSession <span style="color:#636363">bool</span> $bool</h4>
+        
+        <p>
+            
+            Don't create a new captcha image at every reload but save the data in
+            a session. Default value is <strong>true</strong>.
+            
+        </p>
+        
      	<a href="http://www.freedomain.co.nr/" title="Free Domain Name"><img src="http://ceaemra.imdrv.net/co-nr.gif" alt="Free Domain Name" style="width:88px;height:31px;border:0;" /></a>
      	
       </section>
