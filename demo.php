@@ -29,7 +29,7 @@ $captcha->setDefaultTextColorFromHex("#000000");
 $captcha->setAchtergrondRuis(true);
 $captcha->setTextShadow(false);
 $captcha->setLanguage("nl");
-$captcha->saveDataInSession(false);
+//$captcha->saveDataInSession(false);
 //$captcha->setBackgroundNoiseColorFromHex( "#000000" );
 //$captcha->setVoorgrondRuis(true);
 //$captcha->setBackgroundNoiseAmount( 100 );

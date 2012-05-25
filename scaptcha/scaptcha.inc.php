@@ -860,6 +860,20 @@ class SmartCaptcha {
         
         
     }
+    
+    /*
+     * 
+     * TODO
+     * 
+     */
+    
+    public function reset()
+    {
+        
+        unset( $_SESSION[ 'img' ] );
+        
+    }
+   
 
 }
 
