@@ -44,6 +44,7 @@ class SmartCaptcha {
     private $question;
     private $saveSession;
     private $backgroundNoiseAmount;
+	private $maxAttempts;
 
     /*
      * 
@@ -66,6 +67,7 @@ class SmartCaptcha {
         $this->voorgrondRuis = false;
         $this->saveSession = true;
         $this->backgroundNoiseAmount = 10;
+		$this->maxAttempts	=	5;
         
     }
 
@@ -470,7 +472,58 @@ class SmartCaptcha {
 
         return $this->fonts[array_rand($this->fonts)];
     }
+	
+	/*
+	 * 
+	 * TODO
+	 * 
+	 */
+	
+	private function addAttempt()
+	{
+		
+		if( $this->maxAttemptReached() == false )
+		{
+			
+			$_SESSION['attempt']++;
+			return true;
+			
+		}
+		else
+		{
+			
+			return false;
+			
+		}
+		
+	}
+	
+	/*
+	 * 
+	 * TODO
+	 * 
+	 */
 
+	 public function reset()
+	 {
+	 	
+		if( $this->addAttempt() == true )
+		{
+			
+			unset( $_SESSION['img'], $_SESSION['secretword'], $_SESSION['question'] );
+			
+			return true;
+			
+		}
+		else
+		{
+			
+			return false;
+			
+		}
+		
+	 }
+	 
     /*
      * 
      * TODO
@@ -860,19 +913,57 @@ class SmartCaptcha {
         
         
     }
-    
-    /*
-     * 
-     * TODO
-     * 
-     */
-    
-    public function reset()
-    {
-        
-        unset( $_SESSION[ 'img' ] );
-        
-    }
+ 
+	
+	/*
+	 * 
+	 * TODO
+	 * 
+	 */
+	
+	public function maxAttemptReached()
+	{
+		
+		if( $_SESSION['attempt'] >= $this->maxAttempts )
+		{
+			
+			return true;
+			
+		}
+		else
+		{
+			
+			return false;
+			
+		}
+		
+	}
+	
+	/*
+	 * 
+	 * TODO
+	 * 
+	 */
+	
+	public function attemptNum()
+	{
+		
+		return $_SESSION['attempt'];
+		
+	}
+	
+	/*
+	 * 
+	 * TODO
+	 * 
+	 */
+	
+	public function getMaxAttempts()
+	{
+		
+		return $this->maxAttempts;
+		
+	}
    
 
 }

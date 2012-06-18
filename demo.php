@@ -8,21 +8,14 @@ ini_set('display_errors', 'On');
 
 require( "scaptcha/scaptcha.inc.php" );
 
-// ONLY FOR TESTING PURPOSES!!!! DELETE THE FOLLOWING PART IN REAL-LIFE USAGE
+$captcha = new SmartCaptcha();
 
 if (isset($_GET['reset'])) {
 
-    session_destroy();
-
-    session_start();
+	$captcha->reset();
+    
 }
 
-// END DELETE IN REAL USAGE
-
-
-// Check if the image is already in the session
-// Load the image...
-$captcha = new SmartCaptcha();
 
 $captcha->setBgPlainColorFromHex("#FFFFFF");
 $captcha->setDefaultTextColorFromHex("#000000");
