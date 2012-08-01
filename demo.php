@@ -4,9 +4,11 @@ ini_set('memory_limit', '64M');
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
+
 // Include the Simple-captcha class
 
 require( "scaptcha/scaptcha.inc.php" );
+
 
 $captcha = new SmartCaptcha();
 
@@ -16,16 +18,7 @@ if (isset($_GET['reset'])) {
     
 }
 
-
-$captcha->setBgPlainColorFromHex("#FFFFFF");
-$captcha->setDefaultTextColorFromHex("#000000");
-$captcha->setAchtergrondRuis(true);
-$captcha->setTextShadow(false);
-$captcha->setLanguage("nl");
-//$captcha->saveDataInSession(false);
-//$captcha->setBackgroundNoiseColorFromHex( "#000000" );
-//$captcha->setVoorgrondRuis(true);
-//$captcha->setBackgroundNoiseAmount( 100 );
+$captcha->setLanguage( "NL" );
 
 $img = $captcha->draw();
 

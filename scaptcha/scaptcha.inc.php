@@ -19,6 +19,15 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
+// Bug fix for $_SESSION['attempt'] missing.
+
+if( !isset( $_SESSION['attempt'] ) )
+{
+	
+	$_SESSION['attempt']	=	0;
+	
+}
+
 // Start coding...
 
 class SmartCaptcha {
@@ -57,17 +66,19 @@ class SmartCaptcha {
 
         // Set default height and width
 
-        $this->height = 110;
-        $this->width = 330;
+        $this->height 			= 110;
+        $this->width 			= 330;
         $this->amoundDummyWords = 2;
         $this->setLanguage("en");
-        $this->dataPath = "scaptcha/data/";
-        $this->noShadow = false;
-        $this->achtergrondRuis = true;
-        $this->voorgrondRuis = false;
-        $this->saveSession = true;
+        $this->dataPath 		= "scaptcha/data/";
+        $this->noShadow 	   	= true;
         $this->backgroundNoiseAmount = 10;
-		$this->maxAttempts	=	5;
+        $this->achtergrondRuis 	= false;
+        $this->voorgrondRuis  	= false;
+        $this->saveSession 		= true;
+		$this->maxAttempts		=	5;
+		$this->setDefaultTextColorFromHex("#000000");
+		
         
     }
 
@@ -124,17 +135,29 @@ class SmartCaptcha {
 
             // Create background if color is given
 
-            if ($this->bgPlainColor !== NULL AND $this->bgPlainColor !== false) {
+            if ( $this->bgPlainColor == "rand" ) 
+            {
 
-                $red = ImageColorAllocate(
+				$clr = $this->getRandomColor($this->image);
+
+                ImageFillToBorder($this->image, 0, 0, $clr, $clr);
+                
+            } 
+			else if( $this->bgPlainColor !== NULL AND $this->bgPlainColor !== false )
+			{
+				
+				$red = ImageColorAllocate(
                         $this->image, $this->bgPlainColor["r"], $this->bgPlainColor["g"], $this->bgPlainColor["b"]);
 
                 ImageFillToBorder($this->image, 0, 0, $red, $red);
-            } else {
+				
+			}
+            else {
 
-                $clr = $this->getRandomColor($this->image);
+                $clr = ImageColorAllocate( $this->image, 255, 255, 255 );
 
                 ImageFillToBorder($this->image, 0, 0, $clr, $clr);
+				
             }
 
 
@@ -338,12 +361,16 @@ class SmartCaptcha {
         $this->textsDrawn++;
 
         if ($tmpcolor == false) {
-            if ($this->defaultTextColor !== NULL) {
+        	
+            if ($this->defaultTextColor == "rand") {
 
-                $tmpcolor = imagecolorallocate($this->image, $this->defaultTextColor["r"], $this->defaultTextColor["g"], $this->defaultTextColor["b"]);
-            } else {
+			 	$tmpcolor = $this->getRandomColor($this->image);
 
-                $tmpcolor = $this->getRandomColor($this->image);
+            } 
+            else {
+
+				$tmpcolor = imagecolorallocate($this->image, $this->defaultTextColor["r"], $this->defaultTextColor["g"], $this->defaultTextColor["b"]);
+         	
             }
         } else {
 
@@ -581,8 +608,20 @@ class SmartCaptcha {
      * 
      */
 
-    public function setBgPlainColor($r, $g, $b) { //	FOR RGB
-        $this->bgPlainColor = array("r" => $r, "g" => $g, "b" => $b);
+    public function setBgPlainColor($r, $g = 0, $b = 0) { //	FOR RGB
+    
+    	if( $r == "random" OR $r == "rand" )
+		{
+			
+			$this->bgPlainColor = "rand";
+			
+		}
+		else{
+    
+        	$this->bgPlainColor = array("r" => $r, "g" => $g, "b" => $b);
+        
+		}
+		
     }
 
     /*
@@ -666,8 +705,21 @@ class SmartCaptcha {
      * 
      */
 
-    public function setDefaultTextColor($r, $g, $b) { //	FOR RGB
-        $this->defaultTextColor = array("r" => $r, "g" => $g, "b" => $b);
+    public function setDefaultTextColor($r, $g = 0, $b = 0) { //	FOR RGB
+    	
+    	if( $r === "rand" OR $r === "random" )
+		{
+			
+			$this->defaultTextColor = "rand";
+			
+		}
+		else
+		{
+	
+			$this->defaultTextColor = array("r" => $r, "g" => $g, "b" => $b);
+			
+		}
+    
     }
 
     public function setAmoundDummyWords($cnt) {
@@ -964,7 +1016,7 @@ class SmartCaptcha {
 		return $this->maxAttempts;
 		
 	}
-   
+
 
 }
 
